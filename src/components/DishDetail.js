@@ -38,7 +38,6 @@ class DishDetail extends Component {
     
     dishComments(comments){
         const comt = comments.comments.map((comment)=>{
-            var d = (comment.date).substr(0, 10);
 
             if (comment !=null){
 
@@ -48,7 +47,7 @@ class DishDetail extends Component {
                     {comment.comment}                  
                 </li>
                 <li>
-                    -- {comment.author}, {d}
+                    -- {comment.author}, {new Intl.DateTimeFormat('en-US', {year: 'numeric',month: 'short',day: '2-digit'}).format(new Date(Date.parse(comment.date)) )}
                 </li>
                 </ul>
                 )
@@ -87,13 +86,15 @@ class DishDetail extends Component {
     }
     render(){  
         return(
+                <div className="container">
                 <div className="row">
                     <div className="col-12 col-md-5 m-1">
-                    {this.renderDish(this.props.dishDetail)}
+                    {this.renderDish(this.props.dish)}
                     </div>
                     <div className="col-12 col-md-5 m-1">
-                    {this.renderComments(this.props.dishDetail)}
+                    {this.renderComments(this.props.dish)}
                     </div>
+                </div>
                 </div>
         )
     }
