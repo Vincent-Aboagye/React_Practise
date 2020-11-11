@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Card, CardImg, CardBody, CardText, CardTitle } from 'reactstrap';
 
 
  
 function RenderDish({dish}) {
         if (dish != null){
-            return(
+            return (
                     <Card>
                         <CardImg width="100%" src={dish.image} alt={dish.name} />
                         <CardBody>
@@ -17,7 +17,7 @@ function RenderDish({dish}) {
             )
             }
             else{
-                return(
+                return (
                 <div>
 
                 </div>
