@@ -31,3 +31,10 @@ address{
 .navbar-dark {
     background-color: #512DA8;
 }
+
+.card-description{
+    white-space: "nowrap";
+     overflow: "hiddden";
+      width: "100%";
+    text-overflow: "ellipsis";
+}
