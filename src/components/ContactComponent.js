@@ -1,7 +1,16 @@
 import React, {Component} from 'react';
-import { Button, Label, Col, Row} from 'reactstrap'
+import { Button, Label, Col, Row, Breadcrumb, BreadcrumbItem} from 'reactstrap';
 import * as fe from 'react-feather';
-import {Control, LocalForm, Errors} from 'react-redux-form'
+import { Link }   from 'react-router-dom';
+import {Control, LocalForm, Errors} from 'react-redux-form';
+
+
+const required = (val) => val && val.length;
+const maxLength = (len) => (val) => !(val) || (val.length <= len);
+const minLength = (len) => (val) => (val) && (val.length >= len);
+const isNumber = (val) => !isNaN(Number(val));
+const validEmail = (val) => /^[A-z0-9._%+-]+@[A-Z0-9.-]+\.[A-z]{2,4}$/i.test(val);
+
 class Contact extends Component {
     constructor(props){
         super(props);
@@ -89,6 +98,14 @@ class Contact extends Component {
         // const errors = this.validate(this.state.firstname, this.state.lastname, this.state.telnum, this.state.email);
         return(
             <div className="container">
+                <div className="row">
+                 <Breadcrumb>
+                    <BreadcrumbItem>
+                        <Link to='/home'>Home</Link>
+                    </BreadcrumbItem>
+                    <BreadcrumbItem active>Contact us</BreadcrumbItem>
+                 </Breadcrumb>
+             </div>
                 <div className="row row-content">
                     <div className="col-12">
                     <h3>Location Information</h3>
@@ -117,8 +134,8 @@ class Contact extends Component {
                 </div>
                 <div className="row row-content">
                     <div className='col-12'>
-                        <h3>Send us Your Feedback <span className="fe fe-bell"></span> </h3>
-                        <fe.Bell />
+                        <h3>Send us Your Feedback <span><fe.MessageSquare /></span> </h3>
+                        
                     </div>
                     <div className="col-12 col-md-9">
                         <LocalForm onSubmit={(values)=>this.handleSubmit(values)}>
@@ -128,6 +145,7 @@ class Contact extends Component {
                                     <Control.text model=".firstname" id="firstname" name="firstname"
                                         placeholder="First Name"
                                         className="form-control"
+                                        validators = {{required, minLength: minLength(3), maxLength: maxLength(15)}}
                                         // value={this.state.firstname}
                                         // valid={errors.firstname === ''}
                                         // invalid={errors.firstname !== ''}
@@ -135,7 +153,19 @@ class Contact extends Component {
                                         // onChange={this.handleInputChange} 
                                         />
                                     {/* <FormFeedback>{errors.firstname}</FormFeedback> */}
+                                    <Errors
+                                        className= "text-danger"
+                                        model=".firstname"
+                                        show= "touched"
+                                        messages={{
+                                            required: "Required ",
+                                            minLength: "Must be more than 3 characters ",
+                                            maxLength: "Must be less than 15 characters "
+                                        }} 
+                                />
                                 </Col>
+                                
+
                             </Row>
                             <Row className="form-group"FormGroup row>
                                 <Label htmlFor="lastname" md={2}>Last Name</Label>
@@ -143,6 +173,7 @@ class Contact extends Component {
                                     <Control.text model=".lastname" id="lastname" name="lastname"
                                         placeholder="Last Name"
                                         className="form-control"
+                                        validators = {{required, minLength: minLength(3), maxLength: maxLength(15)}}
                                         // value={this.state.lastname}
                                         // valid={errors.lastname === ''}
                                         // invalid={errors.lastname !== ''}
@@ -150,14 +181,25 @@ class Contact extends Component {
                                         // onChange={this.handleInputChange} 
                                         />
                                     {/* <FormFeedback>{errors.lastname}</FormFeedback> */}
+                                    <Errors
+                                        className= "text-danger"
+                                        model=".lastname"
+                                        show= "touched"
+                                        messages={{
+                                            required: "Required ",
+                                            minLength: "Must be more than 3 characters ",
+                                            maxLength: "Must be less than 15 characters "
+                                        }} 
+                                />
                                 </Col>                        
                             </Row>
                             <Row className="form-group">
                                 <Label htmlFor="telnum" md={2}>Contact Tel.</Label>
                                 <Col md={10}>
                                     <Control.text model=".telnum" id="telnum" name="telnum"
-                                        placeholder="Tel. number"
+                                        placeholder="Tel.number eg 0240000000"
                                         className="form-control"
+                                        validators = {{required, isNumber, maxLength: maxLength(10), minLength: minLength(10)}}
                                         // value={this.state.telnum}
                                         // valid={errors.telnum === ''}
                                         // invalid={errors.telnum !== ''}
@@ -165,6 +207,17 @@ class Contact extends Component {
                                         // onChange={this.handleInputChange} 
                                         />
                                     {/* <FormFeedback>{errors.telnum}</FormFeedback> */}
+                                    <Errors
+                                        className= "text-danger"
+                                        model=".telnum"
+                                        show= "touched"
+                                        messages={{
+                                            required:  "Required ",
+                                           isNumber:  "Must be a number ",
+                                           minLength: "Must be 10 digits ",
+                                           maxLength: "Must not be more than 10 digits "
+                                        }} 
+                                />
                                 </Col>
                             </Row>
                             <Row className="form-group">
@@ -173,6 +226,7 @@ class Contact extends Component {
                                 <Control.text model=".email" id="email" name="email"
                                         placeholder="Email"
                                         className="form-control"
+                                        validators = {{validEmail}}
                                         // value={this.state.email}
                                         // valid={errors.email === ''}
                                         // invalid={errors.email !== ''}
@@ -180,6 +234,14 @@ class Contact extends Component {
                                         // onChange={this.handleInputChange} 
                                         />
                                     {/* <FormFeedback>{errors.email}</FormFeedback> */}
+                                    <Errors
+                                        className= "text-danger"
+                                        model=".email"
+                                        show= "touched"
+                                        messages={{
+                                            validEmail: "Enter a valid email"
+                                        }} 
+                                />
                                 </Col>
                             </Row>
                             <Row className="form-group">
